@@ -88,7 +88,7 @@ with title_col:
 
 with upload_col:
     st.write("##") 
-    uploaded_file = st.file_uploader("Upload .dat", type=["dat"], label_visibility="collapsed")
+    uploaded_file = st.file_uploader("Upload .dat", type=["dat"], label_visibility="collapsed",key="file_uploader")
 
 if uploaded_file and "file_processed" not in st.session_state:
     raw_str = uploaded_file.read().decode("utf-8")
@@ -117,9 +117,8 @@ with st.sidebar:
     
     st.divider()
     if st.button("🗑️ Clear All Data", use_container_width=True):
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.session_state.original_snapshot = {}
+        # This violently wipes the entire session, including the uploaded file
+        st.session_state.clear()
         st.rerun()
 
 # --- MAIN WORKSPACE (Tabs) ---
